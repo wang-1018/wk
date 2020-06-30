@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ln.mapper.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.zyl.pojo.User" >
+    <id column="userid" property="userid" jdbcType="BIGINT" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="age" property="age" jdbcType="INTEGER" />
+    <result column="id" property="id" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    userid, username, age ,id
+  </sql>
+  <!--<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >-->
+    <!--select -->
+    <!--<include refid="Base_Column_List" />-->
+    <!--from t_user-->
+    <!--where userid = #{userid,jdbcType=BIGINT}-->
+  <!--</select>-->
+  <select id="selectByPrimaryKey" resultType="com.ln.pojo.User">
+    SELECT
+        *
+    FROM
+        t_user a
+    WHERE
+        a.userid = #{userid}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_user
+    where userid = #{userid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ln.pojo.User" useGeneratedKeys="true" keyProperty="userid">
+    insert into t_user (userid, username, age
+      )
+    values (#{userid,jdbcType=BIGINT}, #{username,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ln.pojo.User" >
+    insert into t_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userid != null" >
+        userid,
+      </if>
+      <if test="username != null" >
+        username,
+      </if>
+      <if test="age != null" >
+        age,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userid != null" >
+        #{userid,jdbcType=BIGINT},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        #{age,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ln.pojo.User" >
+    update t_user
+    <set >
+      <if test="username != null" >
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        age = #{age,jdbcType=INTEGER},
+      </if>
+    </set>
+    where userid = #{userid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ln.pojo.User" >
+    update t_user
+    set username = #{username,jdbcType=VARCHAR},
+      age = #{age,jdbcType=INTEGER}
+    where userid = #{userid,jdbcType=BIGINT}
+  </update>
+  <select id="selectAll" resultType="com.ln.pojo.User">
+    SELECT * FROM t_user
+  </select>
+  <select id="findCityByCityId" resultType="com.ln.pojo.City">
+    select  * from t_city where id = #{cityid1}
+  </select>
+  <select id="findByParentId" resultType="com.ln.pojo.City">
+    SELECT * FROM t_city WHERE pid = #{pid}
+  </select>
+</mapper>

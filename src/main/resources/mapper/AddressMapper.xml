@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ln.mapper.AddressMapper" >
+  <resultMap id="BaseResultMap" type="com.zyl.pojo.Address" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="userid" property="userid" jdbcType="BIGINT" />
+    <result column="cityid1" property="cityid1" jdbcType="BIGINT" />
+    <result column="cityid2" property="cityid2" jdbcType="BIGINT" />
+    <result column="cityid3" property="cityid3" jdbcType="BIGINT" />
+    <result column="xiangxi" property="xiangxi" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, address, userid ,cityid1 ,cityid2 ,cityid3 ,xiangxi
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_address
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_address
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ln.pojo.Address" >
+    insert into t_address (id, address, userid
+      )
+    values (#{id,jdbcType=BIGINT}, #{address,jdbcType=VARCHAR}, #{userid,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ln.pojo.Address" >
+    insert into t_address
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="userid != null" >
+        userid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ln.pojo.Address" >
+    update t_address
+    <set >
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        userid = #{userid,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ln.pojo.Address" >
+    update t_address
+    set address = #{address,jdbcType=VARCHAR},
+      userid = #{userid,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <delete id="deleteByUserId">
+    delete from t_address
+    where userid = #{id,jdbcType=BIGINT}
+  </delete>
+  <select id="selectByUserId" resultMap="BaseResultMap">
+    SELECT * FROM t_address WHERE userid = #{id}
+  </select>
+  <insert id="addAddress">
+    insert into t_address(address,userid,cityid1,cityid2,cityid3) value (#{address},#{userid},#{cityid1},#{cityid2},#{cityid3})
+  </insert>
+  <update id="updateByUser" parameterType="com.ln.pojo.Address">
+    UPDATE t_address
+      SET address = #{address},
+       cityid1 = #{cityid1},
+       cityid2 = #{cityid2},
+       cityid3 = #{cityid3}
+      WHERE
+          userid = #{userid}
+  </update>
+</mapper>
